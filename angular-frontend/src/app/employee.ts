@@ -3,4 +3,9 @@ export class Employee {
     firstName: string;
     lastName: string;
     emailId: string;
+    hours: string;
+    hourlyRate: string;
+    taxRate: string;
+    totalToPay: string;
+
 }

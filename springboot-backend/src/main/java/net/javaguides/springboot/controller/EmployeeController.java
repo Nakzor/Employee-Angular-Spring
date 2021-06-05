@@ -58,7 +58,12 @@ public class EmployeeController {
 		employee.setFirstName(employeeDetails.getFirstName());
 		employee.setLastName(employeeDetails.getLastName());
 		employee.setEmailId(employeeDetails.getEmailId());
-		
+		employee.setHours(employeeDetails.getHours());
+		employee.setHourlyRate(employeeDetails.getHourlyRate());
+		employee.setTaxRate(employeeDetails.getTaxRate());
+		employee.setTotalToPay(employee.getTotalToPay());
+
+
 		Employee updatedEmployee = employeeRepository.save(employee);
 		return ResponseEntity.ok(updatedEmployee);
 	}
