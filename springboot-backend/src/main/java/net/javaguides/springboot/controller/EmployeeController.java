@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.javaguides.springboot.model.Email;
+import net.javaguides.springboot.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +22,8 @@ import net.javaguides.springboot.exception.ResourceNotFoundException;
 import net.javaguides.springboot.model.Employee;
 import net.javaguides.springboot.repository.EmployeeRepository;
 
+import javax.mail.MessagingException;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/")
@@ -27,6 +31,9 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private EmailService emailService;
 	
 	// get all employees
 	@GetMapping("/employees")
@@ -61,7 +68,7 @@ public class EmployeeController {
 		employee.setHours(employeeDetails.getHours());
 		employee.setHourlyRate(employeeDetails.getHourlyRate());
 		employee.setTaxRate(employeeDetails.getTaxRate());
-		employee.setTotalToPay(employee.getTotalToPay());
+		employee.setTotalToPay(employee.getHourlyRate()*employee.getHours()*(100- employee.getTaxRate())/100);
 
 
 		Employee updatedEmployee = employeeRepository.save(employee);
@@ -78,6 +85,19 @@ public class EmployeeController {
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/employees/{id}/send-email")
+	public ResponseEntity<?> sendEmail(@PathVariable Long id) throws MessagingException {
+		Employee employee = employeeRepository.findById(id)
+				.orElseThrow (()-> new ResourceNotFoundException("Employee not exist with id :" + id));
+		Email email = new Email();
+		email.setRecipient(employee.getEmailId());
+		email.setSubject("Here is the information of your salary");
+		email.setMessage("Your worked hours are: " + employee.getHours() + " hours " +  " and " + "net payment to your account is: " + employee.getTotalToPay() + "€");
+		emailService.sendEmail(email);
+		return ResponseEntity.ok(null);
+
 	}
 	
 	

@@ -31,4 +31,8 @@ export class EmployeeService {
   deleteEmployee(id: number): Observable<Object>{
     return this.httpClient.delete(`${this.baseURL}/${id}`);
   }
+
+  sendEmail(id: number): Observable<any>{
+    return this.httpClient.get(`${this.baseURL}/${id}/send-email`);
+  }
 }

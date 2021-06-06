@@ -23,9 +23,10 @@
             <td> {{ employee.taxRate }} </td>
             <td> {{ employee.totalToPay }} </td>
             <td>
-                <button (click) = "updateEmployee(employee.id)" class = "btn btn-info"> Update</button>
-                <button (click) = "deleteEmployee(employee.id)" class = "btn btn-danger" style="margin-left: 10px"> Delete</button>
-                <button (click) = "employeeDetails(employee.id)" class = "btn btn-info" style="margin-left: 10px"> View</button>
+                <button (click) = "updateEmployee(employee.id)" class = "btn btn-info" style="margin-left: auto"> Update</button>
+                <button (click) = "deleteEmployee(employee.id)" class = "btn btn-danger" style="margin-left: auto"> Delete</button>
+                <button (click) = "employeeDetails(employee.id)" class = "btn btn-info" style="margin-left: auto"> View</button>
+                <button (click) = "sendEmail(employee.id)" class = "btn btn-dark" style="margin-left: auto"> Send</button>
             </td>
         </tr>
     </tbody>
